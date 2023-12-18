@@ -31,19 +31,21 @@ export default function Register() {
 
   if (session?.user?.role === 'registrar' || session?.user?.role === 'admin') {
     const deleteParticipant = async (deleteId: number) => {
-      try {
-        await fetch('/api/participant', {
-          method: 'DELETE',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            id: deleteId,
-          }),
-        });
-        mutate('/api/participant');
-      } catch {
-        throw new Error('Submit failed');
+      if (window.confirm('การลบข้อมูลจะไม่สามารถกู้คืนได้')) {
+        try {
+          await fetch('/api/participant', {
+            method: 'DELETE',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              id: deleteId,
+            }),
+          });
+          mutate('/api/participant');
+        } catch {
+          throw new Error('Submit failed');
+        }
       }
     };
     const participantsNotFullyRegistered = Array.isArray(allParticipant)
