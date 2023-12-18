@@ -67,7 +67,12 @@ export default function RegisterForm({ id, count }: RegisterFormProps) {
           if (response.ok) {
             const data = await response.json();
             setValue('name', data.name);
+            setValue('pronunciation', data.pronunciation);
+            setValue('email', data.email);
+            setValue('phonenumber', data.phonenumber);
+            setValue('table', data.table);
             setValue('location', data.location);
+            setValue('remarks', data.remarks);
             setFormStatus('update');
             setButtons({ isDisabled: false, buttonColor: 'success' });
           } else {
@@ -107,7 +112,7 @@ export default function RegisterForm({ id, count }: RegisterFormProps) {
             {...register('pronunciation')}
           />
           <TextField
-            label="อีเมลหรือช่องทางการติดต่อ"
+            label="อีเมล"
             variant="outlined"
             type="email"
             InputLabelProps={{ shrink: Boolean(watch('email')) }}

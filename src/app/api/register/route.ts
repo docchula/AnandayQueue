@@ -8,7 +8,6 @@ export async function POST(req: Request) {
   if (session) {
     try {
       const request = await req.json();
-
       const createdParticipant = await db.participants.create({
         data: {
           name: request.data.name,
@@ -35,12 +34,12 @@ export async function PUT(req: Request) {
   if (session) {
     const request = await req.json();
     const {
-      id, name, pronunciation, email, phonenumber, table, location, remarks,
-    } = request;
+      name, pronunciation, email, phonenumber, table, location, remarks,
+    } = request.data;
     try {
       const updateInfo = await db.participants.update({
         where: {
-          id,
+          id: request.id,
         },
         data: {
           name,
