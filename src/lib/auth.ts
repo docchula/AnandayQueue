@@ -1,5 +1,3 @@
-// This need to be fixed later
-/* eslint-disable no-param-reassign */
 import type {
   GetServerSidePropsContext,
   NextApiRequest,
@@ -24,7 +22,7 @@ export const config = {
   secret: process.env.NEXTAUTH_SECRET,
   providers: [
     CredentialsProvider({
-      name: 'Ananday',
+      name: 'AnandayQueue',
       credentials: {
         email: {
           label: 'email',
@@ -34,7 +32,6 @@ export const config = {
         password: {
           label: 'password',
           type: 'password',
-          placeholder: 'password',
         },
       },
 
@@ -57,14 +54,14 @@ export const config = {
   ],
   callbacks: {
     async jwt({ token, user }: { user: User, token: JWT }) {
-      if (!(user === null || user === undefined)) {
-        token.role = user.role;
+      if (user) {
+        return { ...token, role: user.role };
       }
       return token;
     },
     session({ session, token }: { session: Session, token: JWT }) {
-      if ((Boolean(token)) && (!(session.user === null || session.user === undefined))) {
-        session.user.role = token.role;
+      if (token && session.user) {
+        return { ...session, user: { ...session.user, role: token.role } };
       }
       return session;
     },
