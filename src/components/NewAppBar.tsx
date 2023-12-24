@@ -45,7 +45,7 @@ export default function NewAppBar() {
             alt="SMCU Logo"
             style={{ marginRight: '1rem' }}
           />
-          <Typography variant="h6">
+          <Typography variant="h6" sx={{ display: { xs: 'none', sm: 'inline' } }}>
             วันอานันทมหิดล ๒๕๖๖
           </Typography>
         </div>
