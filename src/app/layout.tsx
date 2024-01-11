@@ -5,6 +5,7 @@ import { Sarabun } from 'next/font/google';
 import './globals.css';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { CssBaseline } from '@mui/material';
+import { AppRouterCacheProvider } from '@mui/material-nextjs/v14-appRouter';
 import { SWRConfig } from 'swr';
 import NewAppBar from '@/src/components/NewAppBar';
 
@@ -31,22 +32,24 @@ export default function RootLayout({
       </head>
       <body>
         <SessionProvider>
-          <ThemeProvider theme={theme}>
-            <CssBaseline />
-            <SWRConfig
-              value={{
-                fetcher: async (...args: Parameters<typeof fetch>) => {
-                  const res = await fetch(...args);
-                  return res.json();
-                },
-              }}
-            >
-              <NewAppBar />
-              <div style={{ margin: '1em' }}>
-                {children}
-              </div>
-            </SWRConfig>
-          </ThemeProvider>
+          <AppRouterCacheProvider>
+            <ThemeProvider theme={theme}>
+              <CssBaseline />
+              <SWRConfig
+                value={{
+                  fetcher: async (...args: Parameters<typeof fetch>) => {
+                    const res = await fetch(...args);
+                    return res.json();
+                  },
+                }}
+              >
+                <NewAppBar />
+                <div style={{ margin: '1em' }}>
+                  {children}
+                </div>
+              </SWRConfig>
+            </ThemeProvider>
+          </AppRouterCacheProvider>
         </SessionProvider>
       </body>
     </html>
