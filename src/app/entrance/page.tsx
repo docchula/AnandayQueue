@@ -21,6 +21,7 @@ import SigninForm from '@/src/components/SigninForm';
 import useAllParticipant from '@/src/lib/hooks/useAllParticipant';
 import NoAccessAlert from '@/src/components/NoAccessAlert';
 import EntranceForm from '@/src/components/EntranceForm';
+import styles from '@/src/app/layout.module.css';
 
 export default function Entrance() {
   const { data: session } = useSession();
@@ -81,7 +82,7 @@ export default function Entrance() {
           </TableContainer>
         </Container>
         <br />
-        <div style={{ marginTop: '1em' }}>
+        <div className={styles.signoutContainer}>
           <SignoutButton />
         </div>
       </>

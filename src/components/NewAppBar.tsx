@@ -8,6 +8,7 @@ import mdcuLogo from '@/public/image/mdcu-logo.webp';
 import smcu from '@/public/image/smcu.webp';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
+import styles from './NewAppBar.module.css';
 
 export default function NewAppBar() {
   const { data: session } = useSession();
@@ -29,21 +30,21 @@ export default function NewAppBar() {
           onClick={() => {
             router.push('/');
           }}
-          style={{ display: 'flex', cursor: 'pointer' }}
+          className={styles.homeButton}
         >
           <Image
             src={mdcuLogo}
             height={32}
             width={(121 / 120) * 32}
             alt="MDCU Logo"
-            style={{ marginRight: '0.25rem' }}
+            className={styles.mdcu}
           />
           <Image
             src={smcu}
             height={32}
             width={(168 / 226) * 32}
             alt="SMCU Logo"
-            style={{ marginRight: '1rem' }}
+            className={styles.smcu}
           />
           <Typography variant="h6" sx={{ display: { xs: 'none', sm: 'inline' } }}>
             วันอานันทมหิดล ๒๕๖๖

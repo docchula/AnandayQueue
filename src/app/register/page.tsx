@@ -21,6 +21,7 @@ import { Participants } from '@/src/lib/types/participant';
 import NoAccessAlert from '@/src/components/NoAccessAlert';
 import RegisterForm from '@/src/components/RegisterForm';
 import { useSWRConfig } from 'swr';
+import styles from '@/src/app/layout.module.css';
 
 export default function Register() {
   const { data: session } = useSession();
@@ -135,7 +136,7 @@ export default function Register() {
           </TableContainer>
         </Container>
         <br />
-        <div style={{ marginTop: '1em' }}>
+        <div className={styles.signoutContainer}>
           <SignoutButton />
         </div>
       </>

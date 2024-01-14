@@ -8,6 +8,7 @@ import { CssBaseline } from '@mui/material';
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v14-appRouter';
 import { SWRConfig } from 'swr';
 import NewAppBar from '@/src/components/NewAppBar';
+import styles from './layout.module.css';
 
 const sarabun = Sarabun({
   subsets: ['thai'],
@@ -44,7 +45,7 @@ export default function RootLayout({
                 }}
               >
                 <NewAppBar />
-                <div style={{ margin: '1em' }}>
+                <div className={styles.container}>
                   {children}
                 </div>
               </SWRConfig>

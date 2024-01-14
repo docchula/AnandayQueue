@@ -7,6 +7,7 @@ import SigninForm from '@/src/components/SigninForm';
 import NoAccessAlert from '@/src/components/NoAccessAlert';
 import { Participants } from '@/src/lib/types/participant';
 import ParticipantFiltered from '@/src/components/ParticipantFiltered';
+import styles from '@/src/app/layout.module.css';
 
 const stage = [
   {
@@ -38,7 +39,7 @@ export default function Outside() {
             </div>
           );
         })}
-        <div style={{ marginTop: '1em' }}>
+        <div className={styles.signoutContainer}>
           <SignoutButton />
         </div>
       </>

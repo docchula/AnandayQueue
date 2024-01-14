@@ -2,10 +2,11 @@
 
 import { Button } from '@mui/material';
 import { signOut } from 'next-auth/react';
+import styles from './Signout.module.css';
 
 export default function Signout() {
   return (
-    <div style={{ textAlign: 'center' }}>
+    <div className={styles.container}>
       <Button variant="outlined" onClick={async () => { await signOut(); }}>
         ออกจากระบบ
       </Button>
