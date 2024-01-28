@@ -1,19 +1,26 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Ananday Queue Website
 
-## Getting Started
+A web application for managing donors' queue during Ananda Mahidol day.
 
-First, run the development server:
+Successor of [docchula/ananday-queue](https://github.com/docchula/ananday-queue), created by [Sarun Intaralawan](https://github.com/sarunint). Based on [Angular](https://angular.dev/).
 
-```bash
-pnpm dev
-```
+## Features
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- Customized queue system tailored to the specific roles of staff members
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+## Required maintenance
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Sarabun, a custom Google Font.
+- Delete all queues before the day of the next ceremony
 
-# ananqueue
+## Dependencies
 
-https://ananday.docchula.com/ replacement
+- [Next.js](https://nextjs.org/)
+- [Material UI](https://mui.com/material-ui/)
+- Relational Database e.g. MySQL
+
+## Developers
+
+SMCU developers by generation. Add your name here when you're continuing the legacy!
+
+- MDCU78: Ittipat Thanabodikarn
+- MDCU78: Punyawish Patumhirunruksa
