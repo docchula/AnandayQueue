@@ -59,7 +59,7 @@ export const config = {
       }
       return token;
     },
-    session({ session, token }: { session: Session, token: JWT }) {
+    async session({ session, token }: { session: Session, token: JWT }) {
       if (token && session.user) {
         return { ...session, user: { ...session.user, role: token.role } };
       }
