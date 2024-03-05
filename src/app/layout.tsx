@@ -1,13 +1,8 @@
-'use client';
-
-import { SessionProvider } from 'next-auth/react';
 import { Sarabun } from 'next/font/google';
 import './globals.css';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
-import { CssBaseline } from '@mui/material';
-import { AppRouterCacheProvider } from '@mui/material-nextjs/v14-appRouter';
-import { SWRConfig } from 'swr';
 import NewAppBar from '@/src/components/NewAppBar';
+import { Metadata } from 'next';
+import LayoutProvider from '@/src/components/LayoutProvider';
 import styles from './layout.module.css';
 
 const sarabun = Sarabun({
@@ -15,11 +10,11 @@ const sarabun = Sarabun({
   weight: ['100', '200', '400', '500', '600'],
   display: 'swap',
 });
-const theme = createTheme({
-  typography: {
-    fontFamily: 'inherit',
-  },
-});
+
+export const metadata: Metadata = {
+  title: 'วันอานันทมหิดล',
+  description: 'ระบบแอดมินงานวันอานันทมหิดล',
+};
 
 export default function RootLayout({
   children,
@@ -32,26 +27,12 @@ export default function RootLayout({
         <link rel="icon" href="/favicon.ico" sizes="any" />
       </head>
       <body>
-        <SessionProvider>
-          <AppRouterCacheProvider>
-            <ThemeProvider theme={theme}>
-              <CssBaseline />
-              <SWRConfig
-                value={{
-                  fetcher: async (...args: Parameters<typeof fetch>) => {
-                    const res = await fetch(...args);
-                    return res.json();
-                  },
-                }}
-              >
-                <NewAppBar />
-                <div className={styles.container}>
-                  {children}
-                </div>
-              </SWRConfig>
-            </ThemeProvider>
-          </AppRouterCacheProvider>
-        </SessionProvider>
+        <LayoutProvider>
+          <NewAppBar />
+          <div className={styles.container}>
+            {children}
+          </div>
+        </LayoutProvider>
       </body>
     </html>
   );

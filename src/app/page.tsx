@@ -1,11 +1,5 @@
 import IndexCard from '@/src/components/IndexCard';
 import { Stack } from '@mui/material';
-import { Metadata } from 'next';
-
-export const metadata: Metadata = {
-  title: 'วันอานันทมหิดล',
-  description: 'ระบบแอดมินงานวันอานันทมหิดล',
-};
 
 export default function Home() {
   const list = [
