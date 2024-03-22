@@ -1,9 +1,11 @@
 'use client';
 
-import { Card, CardActionArea, CardContent, Typography } from '@mui/material';
+import {
+  Card, CardActionArea, CardContent, Typography,
+} from '@mui/material';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { useRouter } from 'next/navigation';
-import styles from './IndexCard.module.css'
+import styles from './IndexCard.module.css';
 
 interface IndexCardProps {
   text: string
