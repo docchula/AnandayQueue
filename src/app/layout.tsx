@@ -25,10 +25,12 @@ export default function RootLayout({
         <LayoutProvider>
           <AppRouterCacheProvider>
             <CssBaseline />
-            <NewAppBar />
-            <div className={styles.container}>
-              {children}
-            </div>
+            <main>
+              <NewAppBar />
+              <div className={styles.container}>
+                {children}
+              </div>
+            </main>
           </AppRouterCacheProvider>
         </LayoutProvider>
       </body>
