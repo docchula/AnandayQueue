@@ -90,6 +90,7 @@ export default function RegisterForm({ id, count }: RegisterFormProps) {
       <h1>ฟอร์มสำหรับลงทะเบียน</h1>
       <Button
         variant="outlined"
+        type="button"
         sx={{ marginBottom: '1rem' }}
         disabled={buttons.isDisabled}
         onClick={() => { reset(); setFormStatus('new'); setButtons({ isDisabled: true, buttonColor: 'primary' }); }}
