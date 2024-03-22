@@ -1,8 +1,9 @@
 'use client';
 
-import { Card, CardActionArea, CardContent } from '@mui/material';
+import { Card, CardActionArea, CardContent, Typography } from '@mui/material';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { useRouter } from 'next/navigation';
+import styles from './IndexCard.module.css'
 
 interface IndexCardProps {
   text: string
@@ -21,7 +22,9 @@ export default function IndexCard(props: IndexCardProps) {
       <Card sx={{ width: 200 }}>
         <CardActionArea onClick={handleClick}>
           <CardContent>
-            <h2>{props.text}</h2>
+            <Typography variant="h5" component="h2" className={styles.cardText}>
+              <b>{props.text}</b>
+            </Typography>
             <ArrowForwardIcon />
           </CardContent>
         </CardActionArea>
