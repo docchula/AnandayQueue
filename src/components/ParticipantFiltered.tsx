@@ -11,8 +11,8 @@ import {
   TableHead,
   TableRow,
 } from '@mui/material';
-import { Participants } from '@prisma/client';
 import { useSWRConfig } from 'swr';
+import { Participants } from '../lib/types/participant';
 
 interface ParticipantsFilteredProps {
   data: Participants[]
