@@ -6,8 +6,8 @@ import { NextResponse } from 'next/server';
 export async function POST(req: Request) {
   const session = await getServerSession(config);
   if (session) {
+    const request = await req.json();
     try {
-      const request = await req.json();
       const createdParticipant = await db.participants.create({
         data: {
           name: request.data.name,
@@ -19,12 +19,9 @@ export async function POST(req: Request) {
           remarks: request.data.remarks,
         },
       });
-      if (createdParticipant) {
-        return NextResponse.json({ status: 'participant was successfully created' });
-      }
-      return NextResponse.json({ status: 'participant failed to be created' });
+      return NextResponse.json({ createdParticipant, message: 'Participant was successfully created' }, { status: 200 });
     } catch (error) {
-      return NextResponse.json({ status: 'participant failed to be created' });
+      return NextResponse.json({ error: 'Participant was failed to be created' }, { status: 500 });
     }
   }
 }
@@ -53,10 +50,9 @@ export async function PUT(req: Request) {
           status: 0,
         },
       });
-      return NextResponse.json(updateInfo);
+      return NextResponse.json(updateInfo, { status: 200 });
     } catch (error) {
-      console.error('Error:', error);
-      return NextResponse.json(error);
+      return NextResponse.json({ error: 'Participant was failed to be updated' }, { status: 500 });
     }
   }
 }

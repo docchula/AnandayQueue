@@ -17,15 +17,9 @@ export async function POST(req: Request) {
           is_registered: false,
         },
       });
-      return NextResponse.json({
-        success: true,
-        message: 'Participant created successfully',
-      });
+      return NextResponse.json({ message: 'Participant was created successfully' }, { status: 200 });
     } catch (error) {
-      return NextResponse.json({
-        success: false,
-        message: 'Failed to create participant',
-      });
+      return NextResponse.json({ error: 'Participant was failed to be created' }, { status: 500 });
     }
   }
 }
@@ -45,10 +39,9 @@ export async function PATCH(req: Request) {
           location,
         },
       });
-      return NextResponse.json(updateInfo);
+      return NextResponse.json(updateInfo, { status: 200 });
     } catch (error) {
-      console.error('Error:', error);
-      return NextResponse.json(error);
+      return NextResponse.json({ error: 'Participant was failed to be updated' }, { status: 500 });
     }
   }
 }

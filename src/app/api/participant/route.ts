@@ -7,9 +7,9 @@ export async function GET() {
   const session = await getServerSession(config);
   if (session !== null) {
     const data = await db.participants.findMany();
-    return NextResponse.json(data);
+    return NextResponse.json(data, { status: 200 });
   }
-  return NextResponse.json({ status: 'error' });
+  return NextResponse.json({ status: 401 });
 }
 
 export async function PUT(req: Request) {
@@ -25,10 +25,9 @@ export async function PUT(req: Request) {
           status: request.status,
         },
       });
-      return NextResponse.json(updateStatus);
+      return NextResponse.json(updateStatus, { status: 200 });
     } catch (error) {
-      console.error('Error:', error);
-      return NextResponse.json(error);
+      return NextResponse.json({ error: 'Paticipant was not updated' }, { status: 500 });
     }
   }
 }
@@ -43,9 +42,9 @@ export async function POST(req: Request) {
           id: request.id,
         },
       });
-      return NextResponse.json(response);
-    } catch {
-      return NextResponse.json({ status: 'participant not found' });
+      return NextResponse.json(response, { status: 200 });
+    } catch (error) {
+      return NextResponse.json({ status: 'Participant was not found' }, { status: 500 });
     }
   }
 }
@@ -60,9 +59,9 @@ export async function DELETE(req: Request) {
           id: request.id,
         },
       });
-      return NextResponse.json({ status: 'participant was deleted' });
-    } catch {
-      return NextResponse.json({ status: 'participant not found' });
+      return NextResponse.json({ message: 'Participant was deleted' }, { status: 200 });
+    } catch (errror) {
+      return NextResponse.json({ status: 'Participant was not found' }, { status: 500 });
     }
   }
 }

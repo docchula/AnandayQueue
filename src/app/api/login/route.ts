@@ -5,14 +5,13 @@ import bcrypt from 'bcrypt';
 export async function POST(req: Request) {
   const request = await req.json();
   const { email, password } = request;
-  const response = { message: 'invalid email or password' };
 
   const user = await db.users.findUnique({
     where: { email },
   });
 
   if (user === null) {
-    return NextResponse.json(response);
+    return NextResponse.json({ message: 'Invalid email or password' }, { status: 401 });
   }
   // Generate Password
   // bcrypt.hash('password', 10, (hash) => {
@@ -21,12 +20,11 @@ export async function POST(req: Request) {
   const passwordsMatch = bcrypt.compareSync(password, user.password);
   if (passwordsMatch) {
     const authorizedResponse = {
-      status: 'ok',
       email: user.email,
       name: user.name,
       role: user.role,
     };
-    return NextResponse.json(authorizedResponse);
+    return NextResponse.json(authorizedResponse, { status: 200 });
   }
-  return NextResponse.json(response);
+  return NextResponse.json({ message: 'Invalid email or password' }, { status: 401 });
 }
