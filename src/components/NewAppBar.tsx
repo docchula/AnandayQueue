@@ -47,7 +47,7 @@ export default function NewAppBar() {
             className={styles.smcu}
           />
           <Typography variant="h6" sx={{ display: { xs: 'none', sm: 'inline' } }}>
-            วันอานันทมหิดล ๒๕๖๖
+            วันอานันทมหิดล ๒๕๖๗
           </Typography>
         </div>
         {(session !== null && session !== undefined)
