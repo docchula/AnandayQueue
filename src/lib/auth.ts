@@ -45,7 +45,7 @@ export const config = {
         });
         const data = await res.json();
 
-        if (data.status === 'ok') {
+        if (data.authorized) {
           return data;
         }
         return null;

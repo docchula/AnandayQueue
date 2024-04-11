@@ -20,6 +20,7 @@ export async function POST(req: Request) {
   const passwordsMatch = bcrypt.compareSync(password, user.password);
   if (passwordsMatch) {
     const authorizedResponse = {
+      authorized: true,
       email: user.email,
       name: user.name,
       role: user.role,
