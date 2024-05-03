@@ -1,0 +1,21 @@
+services:
+  ananqueue:
+    container_name: ananqueue
+    build:
+      context: ./
+      dockerfile: prod.Dockerfile
+    restart: always
+    ports:
+      - 3000:3000
+    env_file:
+      - .env.prod
+    # networks:
+    #   - my_network
+
+  # Add more containers below (nginx, postgres, etc.)
+
+# Define a network, which allows containers to communicate
+# with each other, by using their container name as a hostname
+# networks:
+#   my_network:
+#     external: true
