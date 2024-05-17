@@ -44,7 +44,7 @@ export async function POST(req: Request) {
       });
       return NextResponse.json(response, { status: 200 });
     } catch (error) {
-      return NextResponse.json({ status: 'Participant was not found' }, { status: 500 });
+      return NextResponse.json({ error: 'Participant was not found' }, { status: 500 });
     }
   }
 }
@@ -61,7 +61,7 @@ export async function DELETE(req: Request) {
       });
       return NextResponse.json({ message: 'Participant was deleted' }, { status: 200 });
     } catch (errror) {
-      return NextResponse.json({ status: 'Participant was not found' }, { status: 500 });
+      return NextResponse.json({ error: 'Participant was not found' }, { status: 500 });
     }
   }
 }
