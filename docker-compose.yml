@@ -1,21 +1,37 @@
 services:
   ananqueue:
-    container_name: ananqueue
     build:
       context: ./
-      dockerfile: prod.Dockerfile
+      dockerfile: Dockerfile
+    image: ananqueue-app
+    pull_policy: build
     restart: always
     ports:
       - 3000:3000
     env_file:
-      - .env.prod
-    # networks:
-    #   - my_network
-
-  # Add more containers below (nginx, postgres, etc.)
-
-# Define a network, which allows containers to communicate
-# with each other, by using their container name as a hostname
-# networks:
-#   my_network:
-#     external: true
+      - stack.env
+    labels:
+      # Traefik configuration discovery
+      # https://doc.traefik.io/traefik/providers/docker/#routing-configuration-with-labels
+      - "traefik.enable=true"
+      - "traefik.http.middlewares.ananqueue-redirect.redirectscheme.scheme=https"
+      - "traefik.http.middlewares.ananqueue-redirect.redirectscheme.permanent=true"
+      - "traefik.http.routers.ananqueue-http.middlewares=ananqueue-redirect"
+      - "traefik.http.routers.ananqueue-http.rule=Host(`ananqueue.docchula.com`)"
+      - "traefik.http.routers.ananqueue-http.entrypoints=web"
+      - "traefik.http.routers.ananqueue-https.rule=Host(`ananqueue.docchula.com`)"
+      - "traefik.http.routers.ananqueue-https.entrypoints=websecure"
+      - "traefik.http.routers.ananqueue-https.tls.certresolver=leresolver"
+      - "traefik.http.services.ananqueue-https.loadbalancer.server.port=8088"
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 1G
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8088/api/up" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+      start_interval: 5s
