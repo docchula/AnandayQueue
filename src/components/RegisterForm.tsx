@@ -128,7 +128,6 @@ export default function RegisterForm({ id, count }: RegisterFormProps) {
           <TextField
             label="โต๊ะ"
             variant="outlined"
-            required
             InputLabelProps={{ shrink: Boolean(watch('table')) }}
             {...register('table')}
           />
