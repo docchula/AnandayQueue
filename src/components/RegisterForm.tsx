@@ -7,7 +7,6 @@ import { useSWRConfig } from 'swr';
 
 interface RegisterFormProps {
   id: number
-  count: number
 }
 
 interface RegisterFormInput {
@@ -25,8 +24,9 @@ interface IButton {
   buttonColor: 'primary' | 'success'
 }
 
-export default function RegisterForm({ id, count }: RegisterFormProps) {
+export default function RegisterForm({ id }: RegisterFormProps) {
   const [buttons, setButtons] = useState<IButton>({ isDisabled: true, buttonColor: 'primary' });
+  const formStatusRef = useRef('new');
   const [formStatus, setFormStatus] = useState('new');
   const { mutate } = useSWRConfig();
   const {
@@ -84,7 +84,7 @@ export default function RegisterForm({ id, count }: RegisterFormProps) {
       };
       getParticipantData();
     }
-  }, [count, id, setValue]);
+  }, [id, setValue]);
   return (
     <>
       <h1>ฟอร์มสำหรับลงทะเบียน</h1>

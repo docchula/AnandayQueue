@@ -27,7 +27,6 @@ export default function Entrance() {
   const { data: session } = useSession();
   const { allParticipant } = useAllParticipant();
   const [id, setId] = useState(0);
-  const [count, setCount] = useState(0);
 
   if (session?.user?.role === 'registrar' || session?.user?.role === 'admin') {
     const participantsNotRegistered = Array.isArray(allParticipant)
@@ -36,7 +35,7 @@ export default function Entrance() {
     return (
       <>
         <Container>
-          <EntranceForm id={id} count={count} />
+          <EntranceForm id={id} />
         </Container>
         <br />
         <Container>
@@ -69,7 +68,6 @@ export default function Entrance() {
                         color="warning"
                         onClick={() => {
                           setId(participant.id);
-                          setCount(count + 1);
                         }}
                       >
                         แก้ไข
