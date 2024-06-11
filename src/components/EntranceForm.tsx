@@ -1,4 +1,6 @@
-import { Button, Stack, TextField } from '@mui/material';
+import {
+  Button, Stack, TextField, Typography,
+} from '@mui/material';
 import { useState, useEffect } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useSWRConfig } from 'swr';
@@ -22,13 +24,14 @@ interface IButton {
 export default function EntranceForm({ id, count }: EntranceFormProps) {
   const [buttons, setButtons] = useState<IButton>({ isDisabled: true, buttonColor: 'primary', buttonText: 'ส่ง' });
   const [formStatus, setFormStatus] = useState('new');
+  const [error, setError] = useState('');
   const { mutate } = useSWRConfig();
   const {
     register, handleSubmit, setValue, watch, reset,
   } = useForm<EntranceFormInput>();
   const onSubmit: SubmitHandler<EntranceFormInput> = async (data) => {
     try {
-      await fetch('/api/entrance', {
+      const res = await fetch('/api/entrance', {
         method: `${formStatus === 'new' ? 'POST' : 'PATCH'}`,
         headers: {
           'Content-Type': 'application/json',
@@ -38,9 +41,13 @@ export default function EntranceForm({ id, count }: EntranceFormProps) {
           data,
         }),
       });
-      reset();
-      mutate('/api/participant');
-      setButtons({ isDisabled: true, buttonColor: 'primary', buttonText: 'ส่ง' });
+      if (res.ok) {
+        reset();
+        mutate('/api/participant');
+        setButtons({ isDisabled: true, buttonColor: 'primary', buttonText: 'ส่ง' });
+      } else {
+        setError('การส่งข้อมูลไม่สำเร็จ');
+      }
     } catch {
       throw new Error('Submit failed');
     }
@@ -67,8 +74,8 @@ export default function EntranceForm({ id, count }: EntranceFormProps) {
           } else {
             throw new Error('Failed to fetch data');
           }
-        } catch (error: any) {
-          console.error('Error:', error.message);
+        } catch (e: any) {
+          console.error('Error:', e.message);
         }
       };
       getParticipantData();
@@ -106,6 +113,7 @@ export default function EntranceForm({ id, count }: EntranceFormProps) {
           <Button variant="contained" type="submit" color={buttons.buttonColor}>
             {buttons.buttonText}
           </Button>
+          <Typography color="red" align="center">{error}</Typography>
         </Stack>
       </form>
     </>
