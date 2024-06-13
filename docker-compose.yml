@@ -1,5 +1,5 @@
 services:
-  ananqueue:
+  nextjs:
     build:
       context: ./
       dockerfile: Dockerfile
