@@ -27,6 +27,7 @@ export default function Register() {
   const { data: session } = useSession();
   const { allParticipant } = useAllParticipant();
   const [id, setId] = useState(0);
+  const [count, setCount] = useState(0);
   const { mutate } = useSWRConfig();
 
   if (session?.user?.role === 'registrar' || session?.user?.role === 'admin') {
@@ -57,7 +58,7 @@ export default function Register() {
     return (
       <>
         <Container>
-          <RegisterForm id={id} />
+          <RegisterForm id={id} count={count} />
           <br />
           <h1>หน่วยงานที่ลงทะเบียนดอกไม้แล้ว</h1>
           <TableContainer component={Paper}>
@@ -84,6 +85,7 @@ export default function Register() {
                         color="success"
                         onClick={() => {
                           setId(participant.id);
+                          setCount(count + 1);
                         }}
                       >
                         ลงทะเบียน

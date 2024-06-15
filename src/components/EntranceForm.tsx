@@ -5,6 +5,7 @@ import { useSWRConfig } from 'swr';
 
 interface EntranceFormProps {
   id: number
+  count: number
 }
 
 interface EntranceFormInput {
@@ -18,7 +19,7 @@ interface IButton {
   buttonText: string
 }
 
-export default function EntranceForm({ id }: EntranceFormProps) {
+export default function EntranceForm({ id, count }: EntranceFormProps) {
   const [buttons, setButtons] = useState<IButton>({ isDisabled: true, buttonColor: 'primary', buttonText: 'ส่ง' });
   const [formStatus, setFormStatus] = useState('new');
   const { mutate } = useSWRConfig();
@@ -72,7 +73,7 @@ export default function EntranceForm({ id }: EntranceFormProps) {
       };
       getParticipantData();
     }
-  }, [id, setValue]);
+  }, [count, id, setValue]);
   return (
     <>
       <h1>ลงทะเบียนดอกไม้</h1>
