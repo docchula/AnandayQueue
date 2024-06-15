@@ -1,13 +1,13 @@
 services:
-  ananqueue:
+  nextjs:
     build:
       context: ./
       dockerfile: Dockerfile
     image: ananqueue-app
     pull_policy: build
     restart: always
-    ports:
-      - 3000:3000
+    # ports:
+    #   - 3000:3000
     env_file:
       - stack.env
     labels:
@@ -22,16 +22,16 @@ services:
       - "traefik.http.routers.ananqueue-https.rule=Host(`ananqueue.docchula.com`)"
       - "traefik.http.routers.ananqueue-https.entrypoints=websecure"
       - "traefik.http.routers.ananqueue-https.tls.certresolver=leresolver"
-      - "traefik.http.services.ananqueue-https.loadbalancer.server.port=8088"
+      - "traefik.http.services.ananqueue-https.loadbalancer.server.port=3000"
     deploy:
       resources:
         limits:
           cpus: '2'
           memory: 1G
-    healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:8088/api/up" ]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 30s
-      start_interval: 5s
+    # healthcheck:
+    #   test: [ "CMD", "curl", "-f", "http://localhost:3000/api/up" ]
+    #   interval: 30s
+    #   timeout: 10s
+    #   retries: 3
+    #   start_period: 30s
+    #   start_interval: 5s

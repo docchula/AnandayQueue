@@ -1,5 +1,6 @@
 import {
   Stack, TextField, Button,
+  Typography,
 } from '@mui/material';
 import { useEffect, useRef, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
@@ -28,13 +29,14 @@ interface IButton {
 export default function RegisterForm({ id, count }: RegisterFormProps) {
   const [buttons, setButtons] = useState<IButton>({ isDisabled: true, buttonColor: 'primary' });
   const formStatusRef = useRef('new');
+  const [error, setError] = useState('');
   const { mutate } = useSWRConfig();
   const {
     register, handleSubmit, setValue, watch, reset,
   } = useForm<RegisterFormInput>();
   const onSubmit: SubmitHandler<RegisterFormInput> = async (data) => {
     try {
-      await fetch('/api/register', {
+      const res = await fetch('/api/register', {
         method: `${formStatusRef.current === 'new' ? 'POST' : 'PUT'}`,
         headers: {
           'Content-Type': 'application/json',
@@ -44,9 +46,13 @@ export default function RegisterForm({ id, count }: RegisterFormProps) {
           data,
         }),
       });
-      reset();
-      mutate('/api/participant');
-      setButtons({ isDisabled: true, buttonColor: 'primary' });
+      if (res.ok) {
+        reset();
+        mutate('/api/participant');
+        setButtons({ isDisabled: true, buttonColor: 'primary' });
+      } else {
+        setError('การส่งข้อมูลไม่สำเร็จ');
+      }
     } catch {
       throw new Error('Submit failed');
     }
@@ -78,8 +84,8 @@ export default function RegisterForm({ id, count }: RegisterFormProps) {
           } else {
             throw new Error('Failed to fetch data');
           }
-        } catch (error: any) {
-          console.error('Error:', error.message);
+        } catch (e: any) {
+          console.error('Error:', e.message);
         }
       };
       getParticipantData();
@@ -147,6 +153,7 @@ export default function RegisterForm({ id, count }: RegisterFormProps) {
           <Button variant="contained" type="submit" color={buttons.buttonColor}>
             ส่ง
           </Button>
+          <Typography color="red" align="center">{error}</Typography>
         </Stack>
       </form>
     </>

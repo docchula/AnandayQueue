@@ -1,4 +1,7 @@
 FROM node:20-alpine AS base
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+RUN corepack enable
 
 # Install dependencies only when needed
 FROM base AS deps
@@ -6,12 +9,10 @@ FROM base AS deps
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
-# Install dependencies based on the preferred package manager
+# Install dependencies
 COPY package.json pnpm-lock.yaml ./
 
-ENV PNPM_HOME="/pnpm"
-ENV PATH="$PNPM_HOME:$PATH"
-RUN corepack enable pnpm && pnpm i --frozen-lockfile
+RUN pnpm i --frozen-lockfile
 
 FROM base AS builder
 WORKDIR /app
@@ -19,10 +20,6 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
 # Generates prisma files for linting
-
-ENV PNPM_HOME="/pnpm"
-ENV PATH="$PNPM_HOME:$PATH"
-RUN corepack enable pnpm
 
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm exec prisma generate
 
@@ -40,6 +37,7 @@ RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 
 COPY --from=builder /app/public ./public
+COPY ./prisma ./prisma
 
 # Set the correct permission for prerender cache
 RUN mkdir .next
@@ -61,4 +59,4 @@ ENV PORT 3000
 
 # server.js is created by next build from the standalone output
 # https://nextjs.org/docs/pages/api-reference/next-config-js/output
-CMD HOSTNAME="0.0.0.0" node server.js
+CMD npx prisma migrate deploy && HOSTNAME="0.0.0.0" node server.js
