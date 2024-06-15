@@ -2,7 +2,7 @@ import {
   Stack, TextField, Button,
   Typography,
 } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useSWRConfig } from 'swr';
 
@@ -28,7 +28,7 @@ interface IButton {
 
 export default function RegisterForm({ id, count }: RegisterFormProps) {
   const [buttons, setButtons] = useState<IButton>({ isDisabled: true, buttonColor: 'primary' });
-  const [formStatus, setFormStatus] = useState('new');
+  const formStatusRef = useRef('new');
   const [error, setError] = useState('');
   const { mutate } = useSWRConfig();
   const {
@@ -37,7 +37,7 @@ export default function RegisterForm({ id, count }: RegisterFormProps) {
   const onSubmit: SubmitHandler<RegisterFormInput> = async (data) => {
     try {
       const res = await fetch('/api/register', {
-        method: `${formStatus === 'new' ? 'POST' : 'PUT'}`,
+        method: `${formStatusRef.current === 'new' ? 'POST' : 'PUT'}`,
         headers: {
           'Content-Type': 'application/json',
         },
@@ -79,7 +79,7 @@ export default function RegisterForm({ id, count }: RegisterFormProps) {
             setValue('table', data.table);
             setValue('location', data.location);
             setValue('remarks', data.remarks);
-            setFormStatus('update');
+            formStatusRef.current = 'update';
             setButtons({ isDisabled: false, buttonColor: 'success' });
           } else {
             throw new Error('Failed to fetch data');
@@ -99,7 +99,7 @@ export default function RegisterForm({ id, count }: RegisterFormProps) {
         type="button"
         sx={{ marginBottom: '1rem' }}
         disabled={buttons.isDisabled}
-        onClick={() => { reset(); setFormStatus('new'); setButtons({ isDisabled: true, buttonColor: 'primary' }); }}
+        onClick={() => { reset(); formStatusRef.current = 'new'; setButtons({ isDisabled: true, buttonColor: 'primary' }); }}
       >
         กลับไปลงทะเบียนใหม่
       </Button>

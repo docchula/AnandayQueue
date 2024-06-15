@@ -47,7 +47,10 @@ export default function ParticipantFiltered({
       throw new Error('handleStatusUpdate failed');
     }
   };
-  const rows = data?.map((participant) => (
+
+  const sortedData = data?.sort((a, b) => a.location.localeCompare(b.location));
+
+  const rows = sortedData?.map((participant) => (
     <TableRow key={participant.id}>
       <TableCell>{participant.name}</TableCell>
       <TableCell>{participant.pronunciation}</TableCell>
