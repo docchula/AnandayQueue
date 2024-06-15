@@ -17,6 +17,7 @@ RUN pnpm i --frozen-lockfile
 FROM base AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
+COPY --from=deps /app/package.json /app
 COPY . .
 
 # Generates prisma files for linting
@@ -36,8 +37,8 @@ ENV NEXT_TELEMETRY_DISABLED 1
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 
+COPY --from=builder /app/package.json /app
 COPY --from=builder /app/public ./public
-COPY ./prisma ./prisma
 
 # Set the correct permission for prerender cache
 RUN mkdir .next
@@ -51,6 +52,12 @@ COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 # Copies prisma files for linting
 COPY --from=builder --chown=nextjs:nodejs /app/prisma ./prisma
 
+# Install prisma for migration
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store \
+    apk add --no-cache bash && \
+    VERSION=$(node -e 'console.log(require("./package.json").devDependencies.prisma)') && \
+    pnpm add prisma@$VERSION
+
 USER nextjs
 
 EXPOSE 3000
@@ -59,4 +66,4 @@ ENV PORT 3000
 
 # server.js is created by next build from the standalone output
 # https://nextjs.org/docs/pages/api-reference/next-config-js/output
-CMD npx prisma migrate deploy && HOSTNAME="0.0.0.0" node server.js
+CMD pnpm exec migrate && HOSTNAME="0.0.0.0" node server.js
