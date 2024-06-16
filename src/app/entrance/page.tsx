@@ -70,6 +70,7 @@ export default function Entrance() {
                         onClick={() => {
                           setId(participant.id);
                           setCount(count + 1);
+                          window.scrollTo({ top: 0, behavior: 'smooth' });
                         }}
                       >
                         แก้ไข
