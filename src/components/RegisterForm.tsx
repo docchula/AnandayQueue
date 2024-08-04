@@ -4,6 +4,7 @@ import {
 } from '@mui/material';
 import { useEffect, useRef, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { toast } from 'react-toastify';
 import { useSWRConfig } from 'swr';
 
 interface RegisterFormProps {
@@ -48,6 +49,7 @@ export default function RegisterForm({ id, count }: RegisterFormProps) {
       });
       if (res.ok) {
         reset();
+        toast.success('ลงทะเบียนสำเร็จ');
         mutate('/api/participant');
         setButtons({ isDisabled: true, buttonColor: 'primary' });
       } else {

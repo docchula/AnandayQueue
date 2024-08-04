@@ -3,6 +3,7 @@ import {
 } from '@mui/material';
 import { useState, useEffect } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
+import { toast } from 'react-toastify';
 import { useSWRConfig } from 'swr';
 
 interface EntranceFormProps {
@@ -43,6 +44,12 @@ export default function EntranceForm({ id, count }: EntranceFormProps) {
       });
       if (res.ok) {
         reset();
+        if (formStatus === 'new') {
+          toast.success('ลงทะเบียนสำเร็จ');
+        } else {
+          toast.success('แก้ไขสำเร็จ');
+          setFormStatus('new');
+        }
         mutate('/api/participant');
         setButtons({ isDisabled: true, buttonColor: 'primary', buttonText: 'ส่ง' });
       } else {

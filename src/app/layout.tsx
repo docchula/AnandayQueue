@@ -5,6 +5,8 @@ import LayoutProvider from '@/src/components/LayoutProvider';
 import { CssBaseline } from '@mui/material';
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v14-appRouter';
 import styles from './layout.module.css';
+import ToastProvider from '../components/ToastProvider';
+import 'react-toastify/dist/ReactToastify.css';
 
 export const metadata: Metadata = {
   title: 'วันอานันทมหิดล',
@@ -27,9 +29,11 @@ export default function RootLayout({
             <CssBaseline />
             <main>
               <NewAppBar />
-              <div className={styles.container}>
-                {children}
-              </div>
+              <ToastProvider>
+                <div className={styles.container}>
+                  {children}
+                </div>
+              </ToastProvider>
             </main>
           </AppRouterCacheProvider>
         </LayoutProvider>
