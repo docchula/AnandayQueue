@@ -24,15 +24,16 @@ COPY . .
 
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm exec prisma generate
 
-ENV NEXT_TELEMETRY_DISABLED 1
+ENV NEXT_TELEMETRY_DISABLED=1
 
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm build
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm approve-builds
 
 # Production image, copy all the files and run next
 FROM base AS runner
 WORKDIR /app
 
-ENV NEXT_TELEMETRY_DISABLED 1
+ENV NEXT_TELEMETRY_DISABLED=1
 
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
