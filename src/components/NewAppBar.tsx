@@ -14,6 +14,13 @@ export default function NewAppBar() {
   const { data: session } = useSession();
   const role = session?.user?.role;
   const router = useRouter();
+
+  function convertArabictoThaiNumber(date: number) {
+    return date.toString().replace(/\d/g, d => String.fromCharCode(0x0E50 + Number(d)));
+  }
+
+  const currentYear = new Date().getFullYear();
+  const currentThaiYear = convertArabictoThaiNumber(currentYear + 543);
   return (
     <AppBar
       position="static"
@@ -47,7 +54,7 @@ export default function NewAppBar() {
             className={styles.smcu}
           />
           <Typography variant="h6" sx={{ display: { xs: 'none', sm: 'inline' } }}>
-            วันอานันทมหิดล ๒๕๖๗
+            วันอานันทมหิดล {currentThaiYear}
           </Typography>
         </div>
         {(session !== null && session !== undefined)
