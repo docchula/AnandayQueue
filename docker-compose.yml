@@ -35,3 +35,16 @@ services:
     #   retries: 3
     #   start_period: 30s
     #   start_interval: 5s
+  migrate:
+    build:
+      context: ./
+      dockerfile: Dockerfile.migrate
+    image: ananqueue-migrate
+    env_file:
+      - stack.env
+    restart: "no"
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 256M
